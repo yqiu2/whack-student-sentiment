@@ -1,0 +1,11 @@
+import indicoio
+# need to import twitter API
+# api key for indicoio and twitter
+
+
+campuses = {}
+for c in campuses:
+    if len(campuses[c]) > 200:
+
+    
+
