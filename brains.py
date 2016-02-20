@@ -1,12 +1,25 @@
-print "What school do you want to know about?" 
-school = raw_input("> ")
+import csv 
+import sys
 
-checker = 0 #used to check if the input is in the database
-while checker = 0: 
-	for schoolName in database:  #schoolName and database need to be figured out to read through every school name
-		if school = schoolName:
-			checker = 1
-	if checker = 0:
-		print "Sorry! Doesn't look like we have that school. Try again?"
-		school = raw_input("> ")
-#Guarantee now exists that the school entered by user has a match in the database.
+#importing the databases of campuses & locations
+campus_loc = {} #{name:[long:lat]}
+with open('campuses.csv') as f:
+    reader = csv.reader(f)
+    reader.next()
+    for row in reader:
+        campus_loc[row[1]] = [float(row[3]), float(row[4])]
+
+school = "Pepperdine University"
+print "We're going to look at %s." %school 
+
+if school not in campus_loc.keys():
+	print "Sorry! Doesn't look like we have that school. Try again?"
+	school = raw_input("> ")
+else:
+	#callTwitter
+
+
+#drop listTweets into the indico.io API, get back an int between 0 & 1, call it sentiment
+
+if sentiment 
+
