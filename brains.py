@@ -1,5 +1,6 @@
 import csv 
 import sys
+from TwitterSearch import *
 
 #importing the databases of campuses & locations
 campus_loc = {} #{name:[long:lat]}
@@ -26,7 +27,7 @@ location = campus_loc[school] #gets the location from campus_loc using the schoo
 ############## begin Twitter API call now
 
 try:
-	tso = TwitterSearchOrder() # create a TwitterSearchOrder object
+    tso = TwitterSearchOrder() # create a TwitterSearchOrder object
     tso.set_keywords([' ']) # let's define all words we would like to have a look for
     tso.set_geocode(location[0],location[1],50)
     #tso.set_language('de') # we want to see German tweets only
