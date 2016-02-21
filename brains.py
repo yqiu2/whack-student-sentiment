@@ -11,7 +11,7 @@ def remove_http(source_string, replace_what): #defining a funciton for pulling o
     head, sep, tail = source_string.rpartition(replace_what)
     return head 
 
-def convert(schoolName):
+def convert(schoolName,key1,key2,key3,key4):
     #importing the databases of campuses & locations
 
     campus_loc = {} #{name:[long:lat]}
@@ -45,10 +45,10 @@ def convert(schoolName):
 
         # it's about time to create a TwitterSearch object with our secret tokens
         ts = TwitterSearch(
-            consumer_key = 'WVTPgTSToLhOPGrTE6jOm1siz',
-            consumer_secret = 'kAnw7K0QK6MxEu39U9o8VVuzW5NMtnK3LXpz7aisQK1cAcwwxj',
-            access_token = '423167129-wQW61AazkF4UYZ94symhaHAmQmoboPzOGSbz6Z9Z',
-            access_token_secret = 'p5qnrdqrNF7s0rdU4wbirAEmC9ss9KHsLzOQNFvTmkQax'
+            consumer_key = str(key1),
+            consumer_secret = str(key2),
+            access_token = str(key3),
+            access_token_secret = str(key4)
             #consumer_key = 'ZrOjYYBF9ALwFlHjnJ6uRwBk6',
             #consumer_secret = 'QraDsU5pdeSTT7qNcReCJZYwmX94Q6S7yb0EcagPumCNmafufq',
             #access_token = '16986893-nUTUdtEcf2HffYJYpVJYbR2p85EeSmvvZSD2VsCLS',
@@ -90,22 +90,21 @@ def convert(schoolName):
         average += i
     average = average/len(sentementCollegeTweets)
 
-    return average
+    print average
 
 
-#creating the Workbook in the memory (not the file itself) for the calculated answers to appear on
-wb1 = Workbook()
-ws1 = wb1.active
-            #school1 = convert("Pepperdine University")
-            #ws['A1'] = school1
 
-campus_final = {} #{name:[long:lat]}
-with open('campuses.csv') as f:
-    reader = csv.reader(f)
-    reader.next()
-    for row in reader:
-        campus_final[row[1]] = convert(row[1])
-        print campus_final
+for z in range(10):
+    print "Enter a college name"
+    school1 = raw_input("> ")
+    convert(school1, 'ArKJR0f0L0k82OBcuixtzrpco','bD0B7IHKlmXiGoZIZRENXzGllguLcLAIPaB82kyssmehHeqZtP','3263098490-wANsX5QThAqOd75QTtFPYyV9qWiRCn6503MzsdN','hF3R5UqPUoTzjV1jcTfYa3peKckdxMClj8gfgdhX5YT33')
+for w in range(10):
+    print "Enter a college name"
+    school1 = raw_input("> ")
+    convert(school1,'yAmfVcbhF9a9couq4NYdkbKsb','59FF2r0StRym1QGF97ILIIwqu7okVwk2Wmhfx38o7DxOxuHqEp','3263098490-ZOgNiqlRduhttM5WSgXMvLT37b2g6gGrA2OVx8o','MByjTrBOSRs31S123infoy0coY2cPzm5xT00bTJIJB2KH')
+    
+
+
 
 print campus_final
 
