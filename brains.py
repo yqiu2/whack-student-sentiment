@@ -4,13 +4,15 @@ import string
 import indicoio
 from TwitterSearch import *
 from indicoio import political, sentiment, language, text_tags, keywords, fer, facial_features, image_features
+from openpyxl import Workbook
 
 def remove_http(source_string, replace_what): #defining a funciton for pulling out the links in the tweets, that rhymes haha
     head, sep, tail = source_string.rpartition(replace_what)
     return head 
 
-def convert(school):
+def convert(schoolName):
     #importing the databases of campuses & locations
+
     campus_loc = {} #{name:[long:lat]}
     with open('campuses.csv') as f:
         reader = csv.reader(f)
@@ -18,10 +20,9 @@ def convert(school):
         for row in reader:
             campus_loc[row[1]] = [float(row[3]), float(row[4])]
 
-    print "What school would you like to look at?"
-    school = raw_input("> ") 
-    print "We're going to look at %s." %school 
+    school = schoolName #takes input and renames it for convenience's sake since every other variable name is schoolName #whoops
 
+    """
     counter = 0 #this entire block will never be run unless we take user input
     while school not in campus_loc.keys():
             counter += 1
@@ -29,7 +30,7 @@ def convert(school):
             if counter > 5:
                     print "Wow, you really suck at this."
             school = raw_input("> ")
-
+    """
     location = campus_loc[school] #gets the location from campus_loc using the school name
 
     ############## begin Twitter API call now
@@ -82,16 +83,14 @@ def convert(school):
     return average
 
 
-
+#creating the Workbook for the locations & naming the first tab 
 wb = Workbook()
 ws = wb.active
-school1 = convert("Pepperdine University")
-
-ws['A1'] = school1
-ws.append([1, 2, 3])
+            """      
+            school1 = convert("Pepperdine University")
+            ws['A1'] = school1
+            """
+for openpyxl.worksheet.campus1.columns():
+    
 
 wb.save("sample.xlsx")
-
-
-
-
