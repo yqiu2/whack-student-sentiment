@@ -66,6 +66,13 @@ except TwitterSearchException as e:
 indicoio.config.api_key = "f09f509655f721e3adac6df5b35abfed"
 api_key_Lisa = "f09f509655f721e3adac6df5b35abfed"
 
-print sentiment(collegeTweets)
+sentementCollegeTweets = sentiment(collegeTweets)
+
+average = 0.0
+for i in sentementCollegeTweets:
+    average += i
+average = average/len(sentementCollegeTweets)
+
+print average
 
 
