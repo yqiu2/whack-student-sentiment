@@ -5,6 +5,7 @@ import indicoio
 from TwitterSearch import *
 from indicoio import political, sentiment, language, text_tags, keywords, fer, facial_features, image_features
 from openpyxl import Workbook
+from openpyxl import load_workbook
 
 def remove_http(source_string, replace_what): #defining a funciton for pulling out the links in the tweets, that rhymes haha
     head, sep, tail = source_string.rpartition(replace_what)
@@ -83,14 +84,26 @@ def convert(schoolName):
     return average
 
 
-#creating the Workbook for the locations & naming the first tab 
-wb = Workbook()
-ws = wb.active
-            """      
-            school1 = convert("Pepperdine University")
-            ws['A1'] = school1
-            """
-for openpyxl.worksheet.campus1.columns():
-    
+#creating the Workbook in the memory (not the file itself) for the calculated answers to appear on
+wb1 = Workbook()
+ws1 = wb1.active
+            #school1 = convert("Pepperdine University")
+            #ws['A1'] = school1
+wb2 = load_workbook('universitynames.xlsx')
+ws2 = wb2.active
 
-wb.save("sample.xlsx")
+#counter = 1
+#for i in ws2.columns():
+ #   if counter <= 4:
+  #      cellbuilder = "A"
+   #     cellbuilder += counter
+    #    ws1.append(convert(ws2[cellbuilder]))
+     ##  # ws1[cellbuilder] = convert(ws2[cellbuilder]
+       # counter += 1
+
+cellbuilder = "A1"
+#answer = convert(str(ws2[cellbuilder]))
+print str(ws2[cellbuilder])
+#print answer
+
+#wb1.save("sample.xlsx")
