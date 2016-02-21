@@ -45,17 +45,25 @@ def convert(schoolName):
 
         # it's about time to create a TwitterSearch object with our secret tokens
         ts = TwitterSearch(
-            consumer_key = 'naPGQJt3L75sZiEZAplsETEp1',
-            consumer_secret = 'rqyRlly80nw1XUGxt7ySR2ZUvQiqDKpbj8kEgDXJ63U1AWbvAr',
-            access_token = '16986893-Zq2L75kDTGR0l3AnsSN1ZXkzw4o8NuBssLCyvxkES',
-            access_token_secret = 'woWPf0kgYoJcz6w4mNUBc8tt2bWqwdSCoMPEYXsWU9Y6w'
+            consumer_key = 'WVTPgTSToLhOPGrTE6jOm1siz',
+            consumer_secret = 'kAnw7K0QK6MxEu39U9o8VVuzW5NMtnK3LXpz7aisQK1cAcwwxj',
+            access_token = '423167129-wQW61AazkF4UYZ94symhaHAmQmoboPzOGSbz6Z9Z',
+            access_token_secret = 'p5qnrdqrNF7s0rdU4wbirAEmC9ss9KHsLzOQNFvTmkQax'
+            #consumer_key = 'ZrOjYYBF9ALwFlHjnJ6uRwBk6',
+            #consumer_secret = 'QraDsU5pdeSTT7qNcReCJZYwmX94Q6S7yb0EcagPumCNmafufq',
+            #access_token = '16986893-nUTUdtEcf2HffYJYpVJYbR2p85EeSmvvZSD2VsCLS',
+            #access_token_secret = 'I8V9DJNFWQX0wh0gNbfLT2bAWpj4uS7rtUioFqyDjnVf3'
+           # consumer_key = 'naPGQJt3L75sZiEZAplsETEp1',
+        #   consumer_secret = 'rqyRlly80nw1XUGxt7ySR2ZUvQiqDKpbj8kEgDXJ63U1AWbvAr',
+           # access_token = '16986893-Zq2L75kDTGR0l3AnsSN1ZXkzw4o8NuBssLCyvxkES',
+           # access_token_secret = 'woWPf0kgYoJcz6w4mNUBc8tt2bWqwdSCoMPEYXsWU9Y6w'
          )
 
          # this is where the fun actually starts :)
         collegeTweets = []
         counter = 0
         for tweet in ts.search_tweets_iterable(tso):
-            if counter < 321:
+            if counter < 50:
                 collegeTweets.append(tweet['text'].encode('ascii','ignore')) #ignores any ASCII
                 collegeTweets[-1] = string.replace(collegeTweets[-1],"#","") #pulls out pound signs to make hashtags part of the sentence/string
                 collegeTweets[-1] = string.replace(collegeTweets[-1],"\n","")  #pulls out any returns which fuck up the sentence
@@ -63,12 +71,14 @@ def convert(schoolName):
                 collegeTweets[-1] = remove_http(collegeTweets[-1],"http") #pulls out any links (aka to pictures since the majority of these are linked from Instagram)
                 counter += 1
                 collegeTweets[-1] += "a"
-                print collegeTweets[-1]
 
     except TwitterSearchException as e:
         print(e)    
 
     ############### begin Indico API call now
+
+    if not collegeTweets:
+        return 0.5
 
     indicoio.config.api_key = "f09f509655f721e3adac6df5b35abfed"
     api_key_Lisa = "f09f509655f721e3adac6df5b35abfed"
@@ -80,7 +90,6 @@ def convert(schoolName):
         average += i
     average = average/len(sentementCollegeTweets)
 
-    print average
     return average
 
 
@@ -89,21 +98,15 @@ wb1 = Workbook()
 ws1 = wb1.active
             #school1 = convert("Pepperdine University")
             #ws['A1'] = school1
-wb2 = load_workbook('universitynames.xlsx')
-ws2 = wb2.active
 
-#counter = 1
-#for i in ws2.columns():
- #   if counter <= 4:
-  #      cellbuilder = "A"
-   #     cellbuilder += counter
-    #    ws1.append(convert(ws2[cellbuilder]))
-     ##  # ws1[cellbuilder] = convert(ws2[cellbuilder]
-       # counter += 1
+campus_final = {} #{name:[long:lat]}
+with open('campuses.csv') as f:
+    reader = csv.reader(f)
+    reader.next()
+    for row in reader:
+        campus_final[row[1]] = convert(row[1])
+        print campus_final
 
-cellbuilder = "A1"
-#answer = convert(str(ws2[cellbuilder]))
-print str(ws2[cellbuilder])
-#print answer
+print campus_final
 
 #wb1.save("sample.xlsx")
