@@ -1,7 +1,9 @@
 import csv 
 import sys
 import string
+import indicoio
 from TwitterSearch import *
+from indicoio import political, sentiment, language, text_tags, keywords, fer, facial_features, image_features
 
 def remove_http(source_string, replace_what): #defining a funciton for pulling out the links in the tweets, that rhymes haha
     head, sep, tail = source_string.rpartition(replace_what)
@@ -48,6 +50,7 @@ try:
 
      # this is where the fun actually starts :)
     collegeTweets = []
+    counter = 0
     for tweet in ts.search_tweets_iterable(tso):
         collegeTweets.append(tweet['text'].encode('ascii','ignore'))
         collegeTweets[-1] = string.replace(collegeTweets[-1],"#","")
@@ -58,8 +61,11 @@ try:
 except TwitterSearchException as e:
     print(e)
 
-print collegeTweets
 ############### begin Indico API call now
 
+indicoio.config.api_key = "f09f509655f721e3adac6df5b35abfed"
+api_key_Lisa = "f09f509655f721e3adac6df5b35abfed"
+
+print sentiment(collegeTweets)
 
 
