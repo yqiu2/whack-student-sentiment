@@ -1,6 +1,11 @@
 import csv 
 import sys
+import string
 from TwitterSearch import *
+
+def remove_http(source_string, replace_what): #defining a funciton for pulling out the links in the tweets, that rhymes haha
+    head, sep, tail = source_string.rpartition(replace_what)
+    return head 
 
 #importing the databases of campuses & locations
 campus_loc = {} #{name:[long:lat]}
@@ -10,7 +15,7 @@ with open('campuses.csv') as f:
     for row in reader:
         campus_loc[row[1]] = [float(row[3]), float(row[4])]
 
-school = "Harvard University"
+school = "Pepperdine University"
 #school = raw_input("> ") - what you implement if you want to ask the user for a school name
 print "We're going to look at %s." %school 
 
@@ -29,7 +34,7 @@ location = campus_loc[school] #gets the location from campus_loc using the schoo
 try:
     tso = TwitterSearchOrder() # create a TwitterSearchOrder object
     tso.set_keywords([' ']) # let's define all words we would like to have a look for
-    tso.set_geocode(location[1],location[0],50)
+    tso.set_geocode(location[1],location[0],1)
     #tso.set_language('de') # we want to see German tweets only
     tso.set_include_entities(False) # and don't give us all those entity information
 
@@ -42,9 +47,19 @@ try:
      )
 
      # this is where the fun actually starts :)
+    collegeTweets = []
     for tweet in ts.search_tweets_iterable(tso):
-        print( '@%s tweeted: %s' % ( tweet['user']['screen_name'], tweet['text'] ) )
+        collegeTweets.append(tweet['text'].encode('ascii','ignore'))
+        collegeTweets[-1] = string.replace(collegeTweets[-1],"#","")
+        collegeTweets[-1] = string.replace(collegeTweets[-1],"\n","")
+        collegeTweets[-1] = string.replace(collegeTweets[-1],"@","")
+        collegeTweets[-1] = remove_http(collegeTweets[-1],"http")
 
-except TwitterSearchException as e: # take care of all those ugly errors if there are some
+except TwitterSearchException as e:
     print(e)
+
+print collegeTweets
+############### begin Indico API call now
+
+
 
