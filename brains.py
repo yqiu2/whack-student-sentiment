@@ -17,8 +17,8 @@ with open('campuses.csv') as f:
     for row in reader:
         campus_loc[row[1]] = [float(row[3]), float(row[4])]
 
-school = "Pepperdine University"
-#school = raw_input("> ") - what you implement if you want to ask the user for a school name
+print "What school would you like to look at?"
+school = raw_input("> ") 
 print "We're going to look at %s." %school 
 
 counter = 0 #this entire block will never be run unless we take user input
@@ -52,21 +52,25 @@ try:
     collegeTweets = []
     counter = 0
     for tweet in ts.search_tweets_iterable(tso):
-        collegeTweets.append(tweet['text'].encode('ascii','ignore'))
-        collegeTweets[-1] = string.replace(collegeTweets[-1],"#","")
-        collegeTweets[-1] = string.replace(collegeTweets[-1],"\n","")
-        collegeTweets[-1] = string.replace(collegeTweets[-1],"@","")
-        collegeTweets[-1] = remove_http(collegeTweets[-1],"http")
+        if counter < 321:
+            collegeTweets.append(tweet['text'].encode('ascii','ignore')) #ignores any ASCII
+            collegeTweets[-1] = string.replace(collegeTweets[-1],"#","") #pulls out pound signs to make hashtags part of the sentence/string
+            collegeTweets[-1] = string.replace(collegeTweets[-1],"\n","")  #pulls out any returns which fuck up the sentence
+            collegeTweets[-1] = string.replace(collegeTweets[-1],"@","") #pulls out any mentions
+            collegeTweets[-1] = remove_http(collegeTweets[-1],"http") #pulls out any links (aka to pictures since the majority of these are linked from Instagram)
+            counter += 1
+            collegeTweets[-1] += "a"
+            print collegeTweets[-1]
 
 except TwitterSearchException as e:
-    print(e)
+    print(e)    
 
 ############### begin Indico API call now
 
 indicoio.config.api_key = "f09f509655f721e3adac6df5b35abfed"
 api_key_Lisa = "f09f509655f721e3adac6df5b35abfed"
 
-sentementCollegeTweets = sentiment(collegeTweets)
+sentementCollegeTweets = sentiment(collegeTweets) #take the Twitter string agnd put it into our own string because we needed an array of the indico results
 
 average = 0.0
 for i in sentementCollegeTweets:
